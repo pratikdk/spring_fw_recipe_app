@@ -12,13 +12,14 @@ public class Recipe extends BaseEntity {
     private Integer servings;
     private String source;
     private String url;
+    @Lob
     private String directions;
 
     @Lob
     private Byte[] image;
 
-    @OneToOne(cascade = CascadeType.ALL) // Parent
-    private Notes notes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe") // Parent
+    private Set<Note> notes = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<Ingredient> ingredients = new HashSet<>();
@@ -30,7 +31,7 @@ public class Recipe extends BaseEntity {
     @JoinTable(name="recipe_category",
             joinColumns = @JoinColumn(name="recipe_id"),
             inverseJoinColumns = @JoinColumn(name="category_id"))
-    private Set<Category> categories;
+    private Set<Category> categories = new HashSet<>();
 
 
     public String getDescription() {
@@ -97,11 +98,11 @@ public class Recipe extends BaseEntity {
         this.image = image;
     }
 
-    public Notes getNotes() {
-        return notes;
+    public Set<Note> getNotes() {
+        return this.notes;
     }
 
-    public void setNotes(Notes notes) {
+    public void setNotes(Set<Note> notes) {
         this.notes = notes;
     }
 
@@ -119,5 +120,13 @@ public class Recipe extends BaseEntity {
 
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 }

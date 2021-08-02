@@ -16,6 +16,15 @@ public class Ingredient extends BaseEntity{
     @OneToOne
     private UnitOfMeasure uom;
 
+    public Ingredient() {}
+
+    public Ingredient(String description, BigDecimal amount, Recipe recipe, UnitOfMeasure uom) {
+        Description = description;
+        this.amount = amount;
+        this.recipe = recipe;
+        this.uom = uom;
+    }
+
     public String getDescription() {
         return Description;
     }
